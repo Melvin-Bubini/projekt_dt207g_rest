@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
+const itemRoutes = require("./routes/itemRoutes");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 require("dotenv").config();
@@ -11,8 +13,15 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
+// Anslut till MongoDB
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.DATABASE)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((error) => console.error("Error connecting to database:", error));
+
 // routes
-app.use("/api", authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api", itemRoutes);
 
 // skyddad route
 app.get("/api/admin", authenticateToken, (req, res) => {

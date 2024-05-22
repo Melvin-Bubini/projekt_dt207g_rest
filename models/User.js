@@ -35,15 +35,15 @@ userSchema.pre("save", async function(next) {
 });
 
 // registrera användare
-userSchema.statics.register = async function (username, password) {
-    try {
-        const user = new this({username, password});
-        await user.save();
-        return user;
-    } catch (error) {
-        throw error;
-    }
-};
+// userSchema.statics.register = async function (username, password) {
+//     try {
+//         const user = new this({username, password});
+//         await user.save();
+//         return user;
+//     } catch (error) {
+//         throw error;
+//     }
+// };
 
 // jämföra hashade lösenordet
 userSchema.methods.comparePassword = async function (password) {
